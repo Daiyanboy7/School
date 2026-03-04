@@ -1,50 +1,50 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, Info, FlaskConical, Users, Bell, Image, MessageSquare, GraduationCap } from 'lucide-react';
+import { Info, FlaskConical, Users, Bell, Image, MessageSquare, GraduationCap } from 'lucide-react';
 import { cn } from '../lib/utils';
+
+export const menuItems = [
+    {
+        name: 'About Us',
+        icon: Info,
+        hasDropdown: true,
+        options: ['Mission', 'Vision', 'At a Glance', 'Successes', 'Governing Body', 'Achievements', 'Oath']
+    },
+    {
+        name: 'Facilities',
+        icon: FlaskConical,
+        hasDropdown: true,
+        options: ['Classrooms', 'Chemistry Lab', 'Biology Lab', 'ICT Lab', 'Physics Lab', 'Mathematics Lab', 'Go to Library', 'Transportation', 'Playground', 'Auditorium', 'Parents waiting room', 'Canteen', 'Other']
+    },
+    {
+        name: 'Club',
+        icon: Users,
+        hasDropdown: true,
+        options: ['Debate Club', 'Science Club', 'Cultural and Music Club', 'Sports Club', 'Math Club', 'General Knowledge Club', 'Literature Club', 'Language Club', 'Drawing Club', 'ICT Club', 'Defence Club', 'Social Welfare Club']
+    },
+    { name: 'Notice', icon: Bell, hasDropdown: false, path: '#notices' },
+    {
+        name: 'Gallery',
+        icon: Image,
+        hasDropdown: true,
+        options: ['Photo Gallery', 'Video Gallery', '360 Degree View']
+    },
+    {
+        name: 'Feedback',
+        icon: MessageSquare,
+        hasDropdown: true,
+        options: ['Guardian', 'Students']
+    },
+    {
+        name: 'Alumni',
+        icon: GraduationCap,
+        hasDropdown: true,
+        options: ['Alumni', 'Events', 'Gallery']
+    },
+];
 
 const SideNav = () => {
     const [activeDropdown, setActiveDropdown] = useState(null);
-
-    const menuItems = [
-        {
-            name: 'About Us',
-            icon: Info,
-            hasDropdown: true,
-            options: ['Mission', 'Vision', 'At a Glance', 'Successes', 'Governing Body', 'Achievements', 'Oath']
-        },
-        {
-            name: 'Facilities',
-            icon: FlaskConical,
-            hasDropdown: true,
-            options: ['Classrooms', 'Chemistry Lab', 'Biology Lab', 'ICT Lab', 'Physics Lab', 'Mathematics Lab', 'Go to Library', 'Transportation', 'Playground', 'Auditorium', 'Parents waiting room', 'Canteen', 'Other']
-        },
-        {
-            name: 'Club',
-            icon: Users,
-            hasDropdown: true,
-            options: ['Debate Club', 'Science Club', 'Cultural and Music Club', 'Sports Club', 'Math Club', 'General Knowledge Club', 'Literature Club', 'Language Club', 'Drawing Club', 'ICT Club', 'Defence Club', 'Social Welfare Club']
-        },
-        { name: 'Notice', icon: Bell, hasDropdown: false, path: '#notices' },
-        {
-            name: 'Gallery',
-            icon: Image,
-            hasDropdown: true,
-            options: ['Photo Gallery', 'Video Gallery', '360 Degree View']
-        },
-        {
-            name: 'Feedback',
-            icon: MessageSquare,
-            hasDropdown: true,
-            options: ['Guardian', 'Students']
-        },
-        {
-            name: 'Alumni',
-            icon: GraduationCap,
-            hasDropdown: true,
-            options: ['Alumni', 'Events', 'Gallery']
-        },
-    ];
 
     return (
         <aside className="fixed right-6 top-1/2 -translate-y-1/2 z-[100] hidden lg:flex flex-col gap-4">
