@@ -1,0 +1,119 @@
+@import "tailwindcss";
+
+@theme {
+  --color-spsc-navy: #001A35;
+  --color-spsc-navy-light: #002B56;
+  --color-spsc-gold: #D4AF37;
+  --color-spsc-gold-light: #F4D03F;
+  --color-spsc-white: #FFFFFF;
+  --color-spsc-gray: #F4F7FA;
+  --color-spsc-dark: #000D1A;
+
+  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Old English Text MT", serif;
+
+  --animate-fade-in: fadeIn 0.5s ease-out forwards;
+  --animate-slide-up: slideUp 0.6s ease-out forwards;
+  --animate-float: float 3s ease-in-out infinite;
+
+  /* Custom Shadows for SPSC */
+  --shadow-gold-premium: 0 0 20px rgba(212, 175, 55, 0.3);
+  --shadow-gold-hover: 0 0 30px rgba(212, 175, 55, 0.5);
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideUp {
+    from {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes float {
+
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+}
+
+@layer base {
+  body {
+    @apply bg-spsc-navy text-spsc-white font-sans antialiased overflow-x-hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-bold tracking-tight text-spsc-white;
+  }
+}
+
+@layer components {
+
+  /* Premium Accent Primary Button */
+  .btn-primary {
+    @apply bg-spsc-gold text-spsc-navy px-8 py-3.5 rounded-lg font-bold uppercase tracking-wider hover:bg-spsc-gold-light transition-all duration-300 shadow-gold-premium hover:shadow-gold-hover active:scale-95 disabled:opacity-50;
+  }
+
+  .btn-outline {
+    @apply border-2 border-spsc-gold text-spsc-gold px-8 py-3.5 rounded-lg font-bold uppercase tracking-wider hover:bg-spsc-gold hover:text-spsc-navy transition-all duration-300;
+  }
+
+  .nav-link {
+    @apply text-white/70 hover:text-spsc-gold transition-colors duration-200 font-semibold tracking-wide;
+  }
+
+  /* Improved Glassmorphism with Higher Contrast */
+  .glass-card {
+    @apply bg-spsc-navy-light/40 backdrop-blur-xl border border-white/10 rounded-2xl;
+  }
+
+  /* Solid Contrast Card for areas where transparency is problematic */
+  .accent-card {
+    @apply bg-spsc-navy-light text-spsc-white p-8 rounded-2xl border-l-4 border-spsc-gold shadow-2xl;
+  }
+
+  .section-padding {
+    @apply py-20 md:py-32;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-spsc-dark;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-spsc-gold/50 rounded-full hover:bg-spsc-gold;
+}
+
+/* Helper for text shadows on images */
+.text-shadow-premium {
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
