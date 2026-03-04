@@ -3,11 +3,13 @@ import { Menu, X, Phone, Mail, MapPin, ChevronDown } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '../lib/utils';
+import { menuItems } from './SideNav';
 
 const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isLoginOpen, setIsLoginOpen] = useState(false);
+    const [mobileActiveDropdown, setMobileActiveDropdown] = useState(null);
     const location = useLocation();
 
     useEffect(() => {
@@ -135,9 +137,9 @@ const Navbar = () => {
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: '100%' }}
                         transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-                        className="fixed inset-0 top-0 left-0 h-screen w-screen z-[100] md:hidden bg-spsc-dark flex flex-col p-8"
+                        className="fixed inset-0 top-0 left-0 h-screen w-screen z-[100] md:hidden bg-spsc-dark flex flex-col p-8 overflow-y-auto"
                     >
-                        <div className="flex justify-between items-center mb-10">
+                        <div className="flex justify-between items-center mb-10 shrink-0">
                             <div className="flex items-center gap-3">
                                 <img src="https://spscsavarcantt.edu.bd/assets/img/logo.png" alt="SPSC Logo" className="h-9 w-auto" />
                                 <span className="font-black text-base text-spsc-white">SPSC MENU</span>
@@ -149,41 +151,108 @@ const Navbar = () => {
                                 <X size={20} />
                             </button>
                         </div>
-                        <ul className="flex flex-col gap-4">
-                            {navLinks.map((link) => (
-                                <li key={link.name}>
-                                    <Link
-                                        to={link.path}
-                                        className={cn(
-                                            "text-xl font-black uppercase tracking-tight",
-                                            location.pathname === link.path ? "text-spsc-gold" : "text-white"
-                                        )}
-                                        onClick={() => setIsMobileMenuOpen(false)}
-                                    >
-                                        {link.name}
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
 
-                        <div className="mt-8 pt-8 border-t border-white/5">
-                            <p className="text-[10px] font-black text-spsc-gold uppercase tracking-[0.3em] mb-6">Portal Login</p>
-                            <div className="grid grid-cols-2 gap-3">
-                                {portalLinks.map((role) => (
-                                    <a
-                                        key={role}
-                                        href={portalUrl}
-                                        target="_blank"
-                                        rel="noreferrer"
-                                        className="p-4 bg-white/5 rounded-2xl text-center hover:bg-spsc-gold hover:text-spsc-navy transition-all group"
-                                    >
-                                        <span className="text-[10px] font-black uppercase tracking-widest text-white group-hover:text-spsc-navy transition-colors">{role}</span>
-                                    </a>
+                        <div className="grid grid-cols-1 gap-8 pb-10">
+                            {/* Main Links */}
+                            <ul className="flex flex-col gap-4">
+                                {navLinks.map((link) => (
+                                    <li key={link.name}>
+                                        <Link
+                                            to={link.path}
+                                            className={cn(
+                                                "text-xl font-black uppercase tracking-tight",
+                                                location.pathname === link.path ? "text-spsc-gold" : "text-white"
+                                            )}
+                                            onClick={() => setIsMobileMenuOpen(false)}
+                                        >
+                                            {link.name}
+                                        </Link>
+                                    </li>
                                 ))}
+                            </ul>
+
+                            {/* Sidebar Links (Mobile Version) */}
+                            <div className="pt-8 border-t border-white/5">
+                                <p className="text-[10px] font-black text-spsc-gold uppercase tracking-[0.3em] mb-6">Explore SPSC</p>
+                                <div className="space-y-2">
+                                    {menuItems.map((item) => (
+                                        <div key={item.name} className="overflow-hidden">
+                                            <button
+                                                className={cn(
+                                                    "w-full flex items-center justify-between p-4 bg-white/5 rounded-2xl transition-all",
+                                                    mobileActiveDropdown === item.name && "bg-spsc-gold text-spsc-navy"
+                                                )}
+                                                onClick={() => {
+                                                    if (item.hasDropdown) {
+                                                        setMobileActiveDropdown(mobileActiveDropdown === item.name ? null : item.name);
+                                                    } else if (item.path?.startsWith('#')) {
+                                                        const element = document.getElementById(item.path.substring(1));
+                                                        if (element) {
+                                                            element.scrollIntoView({ behavior: 'smooth' });
+                                                        }
+                                                        setIsMobileMenuOpen(false);
+                                                    }
+                                                }}
+                                            >
+                                                <div className="flex items-center gap-3">
+                                                    <item.icon size={18} />
+                                                    <span className="text-[10px] font-black uppercase tracking-widest">{item.name}</span>
+                                                </div>
+                                                {item.hasDropdown && (
+                                                    <ChevronDown
+                                                        size={14}
+                                                        className={cn("transition-transform duration-300", mobileActiveDropdown === item.name && "rotate-180")}
+                                                    />
+                                                )}
+                                            </button>
+
+                                            <AnimatePresence>
+                                                {mobileActiveDropdown === item.name && item.hasDropdown && (
+                                                    <motion.div
+                                                        initial={{ height: 0, opacity: 0 }}
+                                                        animate={{ height: 'auto', opacity: 1 }}
+                                                        exit={{ height: 0, opacity: 0 }}
+                                                        className="overflow-hidden bg-white/5 mt-1 rounded-2xl"
+                                                    >
+                                                        <div className="p-2 grid grid-cols-1 gap-1">
+                                                            {item.options.map((opt) => (
+                                                                <button
+                                                                    key={opt}
+                                                                    className="w-full text-left px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-white/40 hover:text-spsc-gold transition-colors"
+                                                                    onClick={() => setIsMobileMenuOpen(false)}
+                                                                >
+                                                                    {opt}
+                                                                </button>
+                                                            ))}
+                                                        </div>
+                                                    </motion.div>
+                                                )}
+                                            </AnimatePresence>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Portal Login */}
+                            <div className="pt-8 border-t border-white/5">
+                                <p className="text-[10px] font-black text-spsc-gold uppercase tracking-[0.3em] mb-6">Portal Login</p>
+                                <div className="grid grid-cols-2 gap-3">
+                                    {portalLinks.map((role) => (
+                                        <a
+                                            key={role}
+                                            href={portalUrl}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            className="p-4 bg-white/5 rounded-2xl text-center hover:bg-spsc-gold hover:text-spsc-navy transition-all group"
+                                        >
+                                            <span className="text-[10px] font-black uppercase tracking-widest text-white group-hover:text-spsc-navy transition-colors">{role}</span>
+                                        </a>
+                                    ))}
+                                </div>
                             </div>
                         </div>
 
-                        <div className="mt-auto space-y-6">
+                        <div className="mt-auto pt-8 space-y-6">
                             <a
                                 href="https://vortibd.com/institute/125/298"
                                 target="_blank"
