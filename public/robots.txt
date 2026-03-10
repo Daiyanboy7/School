@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://spscsavarcantt.netlify.app/sitemap.xml
