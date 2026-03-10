@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { ArrowRight, GraduationCap, Users, BookOpen } from 'lucide-react';
 
 const Home = () => {
@@ -23,7 +24,7 @@ const Home = () => {
           <span className="text-xs font-medium tracking-widest uppercase text-gray-400">Admission Open for 2026</span>
         </motion.div>
 
-        {/* The Main Title (With the "Clamp" Fix) */}
+        {/* The Main Title (Fluid Sizing prevents collision) */}
         <motion.h1 
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -51,20 +52,26 @@ const Home = () => {
           "Honesty, Knowledge, Patriotism — Nurturing future leaders with precision and moral integrity."
         </motion.p>
 
-        {/* Buttons */}
+        {/* FIXED BUTTONS: Now using <Link> to navigate to your other pages */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className="flex flex-col w-full gap-4 mt-12 sm:flex-row sm:w-auto"
+          className="flex flex-col w-full gap-4 mt-12 sm:flex-row sm:w-auto z-20"
         >
-          <button className="flex items-center justify-center gap-2 px-8 py-4 font-bold tracking-tighter text-black uppercase transition-all bg-yellow-500 rounded-xl hover:bg-yellow-400 hover:shadow-[0_0_40px_rgba(234,179,8,0.3)] active:scale-95">
+          <Link 
+            to="/admission"
+            className="flex items-center justify-center gap-2 px-8 py-4 font-bold tracking-tighter text-black uppercase transition-all bg-yellow-500 rounded-xl hover:bg-yellow-400 hover:shadow-[0_0_40px_rgba(234,179,8,0.3)] active:scale-95"
+          >
             Apply Now <ArrowRight size={20} />
-          </button>
+          </Link>
           
-          <button className="px-8 py-4 font-bold tracking-tighter uppercase transition-all border rounded-xl border-white/10 bg-white/5 backdrop-blur-lg hover:bg-white/10 active:scale-95">
+          <Link 
+            to="/about"
+            className="flex items-center justify-center px-8 py-4 font-bold tracking-tighter uppercase transition-all border rounded-xl border-white/10 bg-white/5 backdrop-blur-lg hover:bg-white/10 active:scale-95 text-white"
+          >
             Explore Campus
-          </button>
+          </Link>
         </motion.div>
 
         {/* Quick Stats (Glassmorphism Cards) */}
@@ -89,7 +96,7 @@ const Home = () => {
       </section>
 
       {/* Animated Scroll Indicator */}
-      <div className="absolute flex flex-col items-center gap-2 bottom-8 left-1/2 -translate-x-1/2 opacity-20">
+      <div className="absolute flex flex-col items-center gap-2 bottom-8 left-1/2 -translate-x-1/2 opacity-20 pointer-events-none">
         <div className="w-px h-16 bg-gradient-to-b from-white to-transparent" />
       </div>
 
